@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -45,4 +46,14 @@ public class PersonResource {
         );
     }
 
+    @PUT
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Person put(@PathParam("id") UUID id, Person person) {
+        if (personRepository.findById(id) == null) {
+            return null;
+        }
+
+        return personRepository.update(new Person(id, person.getName(), person.getAge()));
+    }
 }
