@@ -16,10 +16,9 @@ import dev.djov.Person;
 @ApplicationScoped
 public class PersonRepository {
 
+  private static final String GET_ALL = "SELECT * FROM allpeople";
   private static final String FIND_BY_ID = "SELECT * FROM people WHERE id = ?";
-  private static final String FIND_ALL = "SELECT * FROM people";
   private static final String INSERT = "INSERT INTO people (id, name, age) VALUES (?, ?, ?)";
-  private static final String UPDATE = "UPDATE people SET name = ?, age = ? WHERE id = ?";
 
   private final DataSource dataSource;
 
@@ -30,7 +29,7 @@ public class PersonRepository {
   public List<Person> findAll() {
     List<Person> result = new ArrayList<>();
     try (Connection connection = dataSource.getConnection();
-        PreparedStatement statement = connection.prepareStatement(FIND_ALL);
+        PreparedStatement statement = connection.prepareStatement(GET_ALL);
         ResultSet resultSet = statement.executeQuery()) {
       while (resultSet.next()) {
         result.add(
